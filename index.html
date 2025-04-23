@@ -1,6 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cookie Consent Modal</title>
+  <style>
+    body.modal-open .mainContent {
+      filter: blur(5px);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .modalWrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .modalWrapper.show {
+      display: flex;
+    }
+
+    .modalContent {
+      background: #fff;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 12px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modalContent h1 {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+
+    .modalContent p {
+      font-size: 15px;
+      color: #333;
+      line-height: 1.5;
+      margin-bottom: 25px;
+    }
+
+    .modalContent a {
+      color: #007bff;
+      text-decoration: underline;
+    }
+
+    .btnGroup {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .actionBtn {
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .acceptBtn {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .acceptBtn:hover {
+      background-color: #0056b3;
+    }
+
+    .declineBtn {
+      background-color: #e0e0e0;
+      color: #333;
+    }
+
+    .declineBtn:hover {
+      background-color: #c4c4c4;
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="mainContent">
+  <h2 style="text-align:center; padding: 50px;">Welcome to My Website!</h2>
+  <p style="text-align:center;">Your actual website content goes here.</p>
+</div>
+
+<div id="modal" class="modalWrapper">
+  <div class="modalContent">
+    <h1>We Use Cookies</h1>
+    <p>
+      This website uses cookies to personalize content and ads, provide social media features,
+      and analyze our traffic. You may accept or decline below.
+      <br><br>
+      Read our <a href="https://www.google.com" target="_blank">Privacy Policy</a>.
+    </p>
+    <div class="btnGroup">
+      <button id="acceptBtn" class="actionBtn acceptBtn">Accept</button>
+      <button id="declineBtn" class="actionBtn declineBtn">Decline</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById("modal");
+  const acceptBtn = document.getElementById("acceptBtn");
+  const declineBtn = document.getElementById("declineBtn");
+
+  const redirectUrl = "https://www.google.com"; // Same for both
+
+  window.addEventListener("load", () => {
+    modal.classList.add("show");
+    document.body.classList.add("modal-open");
+  });
+
+  function closeModalAndRedirect() {
+    modal.classList.remove("show");
+    document.body.classList.remove("modal-open");
+    window.location.href = redirectUrl;
+  }
+
+  acceptBtn.addEventListener("click", closeModalAndRedirect);
+  declineBtn.addEventListener("click", closeModalAndRedirect);
+</script>
+
+</body>
+</html>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Explore the most comprehensive dictionary and thesaurus tools online. Learn definitions, meanings, synonyms, and more." />
